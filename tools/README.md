@@ -1,4 +1,4 @@
-## Overview over functions and Utils I have collected so far
+## Overview over functions and Utils needed for this project
 # Layout
 - BC-128-pass-lay.bvef
 - BC-128-pass-lay.gif
@@ -9,6 +9,9 @@
 
 - Code from Mike X Cohen for the Laplacian: laplacian_perrinX.m
 https://github.com/mikexcohen/ANTS_youtube_videos/tree/main/ANTS6_preprocessing
+
+# age matching
+- match_groups.py
 
 # Power
 FOOOF wrapper for MATLAB (needed if you want to fit a knee)
