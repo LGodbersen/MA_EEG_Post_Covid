@@ -84,7 +84,7 @@
 10. r squared
 11. permutation tests
 
-# 6. Analysis_connectivity 
+## 6. Analysis_connectivity 
 0. Preliminaries
 1. big loop (later ROI selection): normal, random electrodes, all electrodes
   1.1 connectivity measure delta/beta (such as coherence)
@@ -94,7 +94,7 @@
   1.5 save
 2. inter frequency similarities (not pursued)
 
-# 7. Visualize_connectivity
+## 7. Visualize_connectivity
 1. mean connectivity matrix per group
     1.1 delta
     1.2 beta
@@ -102,7 +102,7 @@
 3. topoplot
 4. have a look at the modularity (exploratory)
 
-# 8. R_Script_connectivity
+## 8. R_Script_connectivity
 1. load packages
 2. load data from MATLAB .csv table
 3. modify dataset
