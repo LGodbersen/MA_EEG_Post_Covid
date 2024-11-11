@@ -8,7 +8,7 @@ Objective: Explain the aim to study delta and beta EEG power and connectivity.
 ## 2. Data Description
 - 46 participants (23 with PCS, 23 without PCS)
 - age matched
-- sampling rate 1000 Hz, 128 Electrodes, 3 min resting state, eyes open
+- sampling rate 1000 Hz, 128 Electrodes, 5 min resting state, eyes open
 - delta frequency (0.6-4 Hz) in a frontal ROI, beta frequency (14-30 Hz) in a central ROI
 - high-pass (0.1 Hz) and low-pass (45 Hz) filtered, ICA decomposition and rejection with ICLabel
 ## 3. Analysis Methods
@@ -19,17 +19,18 @@ Statistical Analysis: t-Tests, wilcox tests, permutation tests.
 Briefly summarize key findings, or provide a link to your thesis document if available.
 Note any visualizations, tables, or figures used to represent findings.
 ## 5. Repository Structure
-data/: Scripts and guidance on accessing or preprocessing EEG data.
-tools/: Functions, electrode layout, MATLAB Fooof Wrapper, visualization tools.
-scripts/: Main analysis scripts, organized by type of analysis (e.g., power analysis, connectivity).
-results/: Code for generating visualizations, tables, and other outputs.
-docs/: Additional documentation, including the full thesis.
+- data/: Scripts and guidance on accessing or preprocessing EEG data.
+- tools/: Functions, electrode layout, MATLAB Fooof Wrapper, visualization tools.
+- scripts/: Main analysis scripts, organized by type of analysis (e.g., power analysis, connectivity).
+- results/: Code for generating visualizations, tables, and other outputs.
+- docs/: Additional documentation, including the full thesis.
 ## 6. Requirements and Setup
 Toolboxes that were used:
 - FieldTrip 20231127
 - EEGLAB 2023.1
 - BCT 2019_03_03
 - if you want to fit a knee, you need the MATLAB Fooof wrapper (Python); Python needs to be installed for this
+
 requires also the following general MATLAB toolboxes:
 - Statistics and Machine Learning Toolbox
 - MATLABs Optimization Toolbox
