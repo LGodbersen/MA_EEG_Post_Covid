@@ -1568,10 +1568,106 @@ cor.test(df_corr_apo$mean_aperiodic_offset,df_corr_ape$tmt_b_minus_a, method = '
 cor.test(df_corr_apo$mean_aperiodic_offset,df_corr_ape$moca, method = 'spearman', exact = FALSE)
 
 # ---------- 10. r squared ----------------
-table_power_5%>%
-  ggplot(aes(x = r_squared, y = aperiodic_exponent))+
-  geom_point()
-cor.test(table_power_5$aperiodic_exponent, table_power_5$r_squared)
+table_frontal_filtered_group%>%
+  group_by(group)%>%
+  summarise(m_r = mean(r_squared),
+            sd_r = sd(r_squared))
+
+table_central_filtered_group%>%
+  group_by(group)%>%
+  summarise(m_r = mean(r_squared),
+            sd_r = sd(r_squared))
+
+# I need data sets per group in order to check the normality requirement separately
+shapiro_df_withPCS <- table_frontal_filtered_group%>%
+  filter(group == 'withPCS')
+
+shapiro_df_withoutPCS <- table_frontal_filtered_group%>%
+  filter(group == 'withoutPCS')
+
+shapiro.test(shapiro_df_withPCS$r_squared)
+shapiro.test(shapiro_df_withoutPCS$r_squared)
+
+shapiro_df_withPCS <- table_central_filtered_group%>%
+  filter(group == 'withPCS')
+
+shapiro_df_withoutPCS <- table_central_filtered_group%>%
+  filter(group == 'withoutPCS')
+
+shapiro.test(shapiro_df_withPCS$r_squared)
+shapiro.test(shapiro_df_withoutPCS$r_squared)
+
+leveneTest(r_squared~group,data = table_frontal_filtered_group)# not significant
+leveneTest(r_squared~group,data = table_central_filtered_group)# not significant
+
+table_frontal_filtered_group <- table_frontal_filtered_group%>%
+  mutate(group = as.factor(group))# otherwise wilcoxon_test from coin does not work
+
+# in order to get the z value
+result <- coin::wilcox_test(data = table_frontal_filtered_group,r_squared~group, comparisons = list(c('withPCS','withoutPCS')), alternative = 'two.sided')
+
+# get the effsize
+table_frontal_filtered_group%>%
+  ungroup()%>% # apparently you have to ungroup here, otherwise, wilcox_effsize does not work
+  wilcox_effsize(r_squared~group)
+
+
+wilcox.test(r_squared~group, data = table_frontal_filtered_group, 
+            exact = FALSE, 
+            correct = FALSE, 
+            conf.int = FALSE)
+
+table_central_filtered_group <- table_central_filtered_group%>%
+  mutate(group = as.factor(group))# otherwise wilcoxon_test from coin does not work
+
+# in order to get the z value
+result <- coin::wilcox_test(data = table_central_filtered_group,r_squared~group, comparisons = list(c('withPCS','withoutPCS')), alternative = 'two.sided')
+
+# get the effsize
+table_central_filtered_group%>%
+  ungroup()%>% # apparently you have to ungroup here, otherwise, wilcox_effsize does not work
+  wilcox_effsize(r_squared~group)
+
+wilcox.test(r_squared~group, data = table_central_filtered_group, 
+            exact = FALSE, 
+            correct = FALSE, 
+            conf.int = FALSE)
+p.adjust(c(2.317e-05,1.209e-15),method = "bonferroni")
+
+table_frontal_filtered_group%>%
+  mutate(group = fct_recode(group,
+                            "with PCS" = "withPCS",
+                            "without PCS" = "withoutPCS"))%>%
+  group_by(group)%>%
+  ggplot(aes(x = r_squared,y = aperiodic_exponent, color = group))+
+  geom_point()+
+  geom_smooth(method=lm , color="black", fill="grey", se=TRUE) +
+  scale_color_manual(values = color_palette) +
+  theme_classic()+
+  theme(legend.position = c(0.25, 0.80))+
+  labs(x = 'R^2',
+       y = 'frontal aperiodic exponent')+
+  theme(text = element_text(size = 17))  # Adjust the size here
+cor.test(table_frontal_filtered_group$aperiodic_exponent, table_frontal_filtered_group$r_squared, method = 'spearman', exact = FALSE)
+
+table_central_filtered_group%>%
+  mutate(group = fct_recode(group,
+                            "with PCS" = "withPCS",
+                            "without PCS" = "withoutPCS"))%>%
+  group_by(group)%>%
+  ggplot(aes(x = r_squared,y = aperiodic_exponent, color = group))+
+  geom_point()+
+  geom_smooth(method=lm , color="black", fill="grey", se=TRUE) +
+  scale_color_manual(values = color_palette) +
+  theme_classic()+
+  theme(legend.position = c(0.25, 0.80))+
+  labs(x = 'R^2',
+       y = 'central aperiodic exponent')+
+  theme(text = element_text(size = 17))  # Adjust the size here
+
+cor.test(table_central_filtered_group$aperiodic_exponent, table_central_filtered_group$r_squared, method = 'spearman', exact = FALSE)
+
+p.adjust(c(2.2e-16,2.2e-16),method = "bonferroni")
 
 table_power_5%>%
   ggplot(aes(x = r_squared, y = aperiodic_offset))+
