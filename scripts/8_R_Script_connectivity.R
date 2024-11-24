@@ -978,11 +978,11 @@ p1 <- graph_measures_final%>%
   geom_smooth(method=lm , color="black", fill="grey", se=TRUE) +
   scale_color_manual(values = color_palette) +
   theme_classic()+
-  stat_cor(aes(color = "Correlation: "),method = "pearson", label.x = 0.026, label.y = 45,hjust=0)+
-  theme(legend.position = c(0.15, 0.85))+
-  labs(x = 'mean central beta imag(coh)',
-       y = 'TMT A [in seconds, Range 0-200]')+
-  theme(text = element_text(size = 15)) 
+  stat_cor(aes(color = "Correlation: "),method = "spearman", p.accuracy = .001, r.accuracy = 0.01, label.x = 0.025, label.y = 45,hjust=0)+
+  theme(legend.position = c(0.17, 0.85))+
+  labs(x = 'rel. central beta imag(coh)',
+       y = 'TMT A [in seconds, 0-200]')+
+  theme(text = element_text(size = 16)) 
 
 ggMarginal(p1, type = "densigram")
 
@@ -1101,11 +1101,11 @@ p4 <- graph_measures_final%>%
   geom_smooth(method=lm , color="black", fill="grey", se=TRUE) +
   scale_color_manual(values = color_palette) +
   theme_classic()+
-  stat_cor(aes(color = "Correlation: "),method = "pearson", label.x = 0.010, label.y = 11,hjust=0)+
-  theme(legend.position = c(0.80, 0.80))+
-  labs(x = 'mean central beta imag(coh)',
+  stat_cor(aes(color = "Correlation: "),method = "spearman", p.accuracy = .001, r.accuracy = 0.01, label.x = 0.023, label.y = 43,hjust=0)+
+  theme(legend.position = c(0.165, 0.16))+
+  labs(x = 'rel. central beta imag(coh)',
        y = 'FACIT Fatigue Score [0-50]')+
-  theme(text = element_text(size = 15))  # Adjust the size here
+  theme(text = element_text(size = 16))  # Adjust the size here
 
 ggMarginal(p4, type = "densigram")
 
