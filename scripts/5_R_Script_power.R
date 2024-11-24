@@ -383,7 +383,7 @@ df_corr_frontal%>%
   ggplot(aes(x = group, y = mean_delta_power, color = group))+
   geom_boxplot()# two outliers in the without PCS group
 
-table_power_5%>%
+table_power_frontal%>%
   group_by(group)%>%
   count()
 
@@ -456,6 +456,11 @@ df_corr_frontal_filtered_group <- table_frontal_filtered_group%>%
   summarise(mean_delta_power = mean(rel_delta),
             mean_delta_power = mean(rel_delta),
             mean_aperiodic_exponent = mean(aperiodic_exponent))
+
+
+table_frontal_filtered_group%>%
+  group_by(group)%>%
+  count()
 
 df_corr_frontal_filtered_group%>%
   group_by(group)%>%
@@ -551,6 +556,10 @@ table_central_filtered_group <- table_beta_filtered_group%>%
 df_corr_central_filtered_group <- table_central_filtered_group%>%
   group_by(participant_id,group,tmt_a_time,facit_f_FS, tmt_b_minus_a,age, moca, hads_d_total_score,sex)%>%
   summarise(mean_beta_power = mean(rel_beta))
+
+table_central_filtered_group%>%
+  group_by(group)%>%
+  count()
 
 df_corr_central_filtered_group%>%
   group_by(group)%>%
@@ -1028,15 +1037,18 @@ df_corr_frontal_filtered_group%>%
                             "without PCS" = "withoutPCS"))%>%
   group_by(group)%>%
   ggplot(aes(x = group, y = mean_delta_power, color = group))+
-  geom_boxplot(size = 0.75,outlier.shape = NA, width=0.5)+
-  geom_jitter(width = 0.2, height = 0, alpha = 0.6, size = 2)+
+  geom_boxplot(size = 0.9,outlier.shape = NA, width=0.5)+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red",
+               position = position_dodge2(width = 0.75,   
+                                          preserve = "single"))+
+  geom_jitter(width = 0.25, height = 0, alpha = 0.6, size = 2)+
   geom_signif(comparisons = list(c("with PCS","without PCS")),map_signif_level = TRUE, color = 'black')+
-  labs(y = 'mean delta power [μV^2]')+
+  labs(y = 'rel. delta power [μV^2]')+
   scale_color_manual(values = color_palette) +
   theme_classic()+
   guides(color = FALSE)+
   theme(
-    text = element_text(size = 18)  # Adjust the size here
+    text = element_text(size = 19)  # Adjust the size here
   )
 
 g1 <- df_corr_frontal_filtered_group%>%
@@ -1093,15 +1105,19 @@ df_corr_central_filtered_group%>%
                             "without PCS" = "withoutPCS"))%>%
   group_by(group)%>%
   ggplot(aes(x = group, y = mean_beta_power, color = group))+
-  geom_boxplot(size = 0.75,outlier.shape = NA, width=0.5)+
-  geom_jitter(width = 0.2, height = 0, alpha = 0.6, size = 2)+                                         # Add p-value to plot
+  geom_boxplot(size = 0.9,outlier.shape = NA, width=0.5)+
+  
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red",
+               position = position_dodge2(width = 0.75,   
+                                          preserve = "single"))+
+  geom_jitter(width = 0.25, height = 0, alpha = 0.6, size = 2)+                                         # Add p-value to plot
   geom_signif(comparisons = list(c("with PCS","without PCS")),map_signif_level = TRUE, color = 'black')+
-  labs(y = 'mean beta power [μV^2]')+
+  labs(y = 'rel. beta power [μV^2]')+
   scale_color_manual(values = color_palette) +
   theme_classic()+
   guides(color = FALSE)+
   theme(
-    text = element_text(size = 18)  # Adjust the size here
+    text = element_text(size = 19)  # Adjust the size here
   )
 
 g2 <- df_corr_central_filtered_group%>%
@@ -1645,6 +1661,7 @@ table_frontal_filtered_group%>%
   scale_color_manual(values = color_palette) +
   theme_classic()+
   theme(legend.position = c(0.25, 0.80))+
+  scale_x_continuous(limits = c(0,1), breaks = seq(0,1,.25))+
   labs(x = 'R^2',
        y = 'frontal aperiodic exponent')+
   theme(text = element_text(size = 17))  # Adjust the size here
@@ -1661,6 +1678,7 @@ table_central_filtered_group%>%
   scale_color_manual(values = color_palette) +
   theme_classic()+
   theme(legend.position = c(0.25, 0.80))+
+  scale_x_continuous(limits = c(0,1), breaks = seq(0,1,.25))+
   labs(x = 'R^2',
        y = 'central aperiodic exponent')+
   theme(text = element_text(size = 17))  # Adjust the size here
@@ -2767,14 +2785,17 @@ table_ape_filtered%>%
          group = fct_relevel(group, "with PCS", "without PCS"))%>%
   group_by(group)%>%
   ggplot(aes(x = group, y = aperiodic_exponent, color = group))+
-  geom_boxplot(size = 0.75,outlier.shape = NA, width=0.5)+
-  geom_jitter(width = 0.2, height = 0, alpha = 0.6, size = 2)+
+  geom_boxplot(size = 0.9,outlier.shape = NA, width=0.5)+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red",
+               position = position_dodge2(width = 0.75,   
+                                          preserve = "single"))+
+  geom_jitter(width = 0.2, height = 0, alpha = 0.6, size = 3)+
   labs(y = 'mean AE at channel 86')+
   scale_color_manual(values = color_palette) +
   theme_classic()+
   guides(color = FALSE)+
   theme(
-    text = element_text(size = 18)  # Adjust the size here
+    text = element_text(size = 20)  # Adjust the size here
   )
 
 table_ape_filtered%>%
@@ -2786,12 +2807,15 @@ table_ape_filtered%>%
   group_by(group)%>%
   ggplot(aes(x = group, y = aperiodic_exponent, color = group))+
   geom_boxplot(size = 0.75,outlier.shape = NA, width=0.5)+
-  geom_jitter(width = 0.2, height = 0, alpha = 0.6, size = 2)+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red",
+               position = position_dodge2(width = 0.75,   
+                                          preserve = "single"))+
+  geom_jitter(width = 0.2, height = 0, alpha = 0.6, size = 3)+
   labs(y = 'mean AE at channel 68')+
   scale_color_manual(values = color_palette) +
   theme_classic()+
   guides(color = FALSE)+
   theme(
-    text = element_text(size = 18)  # Adjust the size here
+    text = element_text(size = 20)  # Adjust the size here
   )
 
